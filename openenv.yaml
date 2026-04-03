@@ -1,0 +1,63 @@
+spec_version: 1
+name: laptop-audio-ns-env
+type: space
+runtime: fastapi
+app: server.app:app
+port: 8000
+tags:
+  - openenv
+  - audio
+  - noise-suppression
+description: >
+  Adaptive laptop-microphone noise suppression environment.
+  An LLM agent observes audio features frame-by-frame (SNR, noise level,
+  speech activity) and selects spectral-subtraction parameters to maximise
+  speech quality in real time.
+tasks:
+  - name: easy_quiet_room
+    description: Low background noise (noise_scale=0.1). Agent must maintain clean speech.
+    difficulty: easy
+  - name: medium_typing_noise
+    description: Moderate keyboard noise (noise_scale=0.5). Requires dynamic suppression.
+    difficulty: medium
+  - name: hard_cafe_noise
+    description: Loud cafe environment (noise_scale=1.0). Aggressive suppression needed.
+    difficulty: hard
+observation_space:
+  - name: snr
+    type: float
+    range: [-40.0, 40.0]
+    description: Output SNR in dB after enhancement
+  - name: noise_level
+    type: float
+    range: [0.0, 5.0]
+    description: Noise component standard deviation
+  - name: speech_activity
+    type: int
+    range: [0, 1]
+    description: 1 if speech detected, 0 if silence
+  - name: energy
+    type: float
+    range: [0.0, 10.0]
+    description: Current frame energy
+  - name: delta_energy
+    type: float
+    range: [-1.0, 1.0]
+    description: Energy change vs previous frame
+  - name: avg_snr
+    type: float
+    range: [-40.0, 40.0]
+    description: Rolling mean SNR over last 3 frames
+  - name: avg_noise
+    type: float
+    range: [0.0, 5.0]
+    description: Rolling mean noise over last 3 frames
+action_space:
+  - name: suppression_level
+    type: float
+    choices: [0.5, 1.0, 1.5, 2.0]
+    description: Noise suppression aggressiveness
+  - name: gain_floor
+    type: float
+    choices: [0.05, 0.1, 0.2]
+    description: Minimum gain floor to prevent musical noise artifacts

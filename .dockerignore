@@ -1,0 +1,33 @@
+# Python
+__pycache__/
+**/__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+
+# Environments
+.env
+.venv/
+venv/
+
+# Version control
+.git/
+.gitignore
+
+# Dev tools
+compare_agents.py
+validate-submission.sh
+ping.py
+testInference.py
+
+# Editor / OS
+.DS_Store
+*.log
+.claude/
+
+# Docs (not needed inside container)
+README.md
