@@ -1,8 +1,8 @@
 # Thresholds calibrated from 100-seed runs of Random and Heuristic baselines.
-# Grade tiers: 1.0 = clearly above heuristic p75
+# Grade tiers: 0.9 = clearly above heuristic p75
 #              0.7 = above heuristic mean
 #              0.4 = above random mean
-#              0.0 = random-level or worse
+#              0.1 = random-level or worse
 
 TASK_THRESHOLDS = {
     "easy_quiet_room":     {"t10": 0.5400, "t07": 0.5150, "t04": 0.4850},

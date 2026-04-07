@@ -170,7 +170,7 @@ def run(task: str, seed: int = None) -> float:
     rewards, history = [], []
     prev_reward = prev_action = None
 
-    print(f"[START] task={task} seed={seed} model={MODEL}")
+    print(f"[START] task={task} env=laptop_audio_ns model={MODEL}")
 
     for step in range(1, MAX_STEPS + 1):
         avg_so_far = sum(rewards) / len(rewards) if rewards else None
@@ -183,21 +183,20 @@ def run(task: str, seed: int = None) -> float:
 
         print(
             f"[STEP] step={step} "
-            f"suppression_level={action.suppression_level} "
-            f"gain_floor={action.gain_floor} "
-            f"reward={reward.value:.4f} "
-            f"snr={obs.snr:.3f} "
-            f"noise_level={obs.noise_level:.4f} "
-            f"speech_activity={obs.speech_activity} "
-            f"done={done}"
+            f"action=apply_suppression(sl={action.suppression_level},gf={action.gain_floor}) "
+            f"reward={reward.value:.2f} "
+            f"done={str(done).lower()} "
+            f"error=null"
         )
 
         if done:
             break
 
-    score      = grade_episode(rewards, task)
-    avg_reward = sum(rewards) / len(rewards) if rewards else 0.0
-    print(f"[END] task={task} seed={seed} steps={len(rewards)} avg_reward={avg_reward:.4f} score={score}")
+    score        = grade_episode(rewards, task)
+    avg_reward   = sum(rewards) / len(rewards) if rewards else 0.0
+    success      = score > 0.1
+    rewards_str  = ",".join(f"{r:.2f}" for r in rewards)
+    print(f"[END] success={str(success).lower()} steps={len(rewards)} score={score:.3f} rewards={rewards_str}")
 
     env.close()
     return score

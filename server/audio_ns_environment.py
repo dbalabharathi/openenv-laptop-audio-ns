@@ -114,7 +114,7 @@ class LaptopAudioNSEnvironment(MCPEnvironment):
     @property
     def state(self) -> State:
         rewards = self._sc["rewards"]
-        score   = grade_episode(rewards, self._sc["task"]) if rewards else 0.0
+        score   = grade_episode(rewards, self._sc["task"]) if rewards else 0.1
         return State(
             episode_id=self._sc["episode_id"],
             step_count=self._sc["step_count"],

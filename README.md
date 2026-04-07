@@ -59,7 +59,7 @@ state  →  {episode_id, step_count, task, avg_reward, score}
 │   └── tasks.py                 # The three task configs — this is the single source of truth
 ├── agent/
 │   ├── baseline.py              # Random agent used as a performance floor
-│   └── grader.py                # Converts avg reward to a 0/0.4/0.7/1.0 score
+│   └── grader.py                # Converts avg reward to a 0.1/0.4/0.7/0.9 score
 ├── models.py                    # OpenEnv-compatible typed wrappers (AudioNSObservation etc.)
 ├── inference.py                 # The LLM agent — reads observations, calls the model, logs results
 ├── compare_agents.py            # Runs Random vs Heuristic vs LLM side by side
@@ -164,14 +164,14 @@ At the end of each episode, `grade_episode()` converts the average step reward i
 
 | Score | Meaning |
 |-------|---------|
-| **1.0** | Beats the heuristic agent (above its p75) |
+| **0.9** | Beats the heuristic agent (above its p75) |
 | **0.7** | Above the heuristic's average |
 | **0.4** | Better than random |
-| **0.0** | Random-level or worse |
+| **0.1** | Random-level or worse |
 
 **Task thresholds:**
 
-| Task | Score 1.0 | Score 0.7 | Score 0.4 |
+| Task | Score 0.9 | Score 0.7 | Score 0.4 |
 |------|-----------|-----------|-----------|
 | `easy_quiet_room` | > 0.5400 | > 0.5150 | > 0.4850 |
 | `medium_typing_noise` | > 0.5320 | > 0.5080 | > 0.4820 |
@@ -189,8 +189,8 @@ Scores from 100-seed calibration runs. Grades are derived by applying the per-ta
 
 | Task | Random avg reward | Random grade | Heuristic avg reward | Heuristic grade |
 |------|-------------------|--------------|----------------------|-----------------|
-| `easy_quiet_room` | 0.4817 | **0.0** | 0.5078 | **0.4** |
-| `medium_typing_noise` | 0.4817 | **0.0** | 0.5078 | **0.4** |
+| `easy_quiet_room` | 0.4817 | **0.1** | 0.5078 | **0.4** |
+| `medium_typing_noise` | 0.4817 | **0.1** | 0.5078 | **0.4** |
 | `hard_cafe_noise` | 0.4817 | **0.4** | 0.5078 | **0.7** |
 
 The LLM agent (gpt-4o-mini) consistently scores one tier above heuristic when a valid API key is set. Without a key it falls back to the heuristic policy.
