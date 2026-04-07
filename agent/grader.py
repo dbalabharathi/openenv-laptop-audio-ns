@@ -13,10 +13,10 @@ TASK_THRESHOLDS = {
 
 def grade_episode(rewards: list, task: str = "medium_typing_noise") -> float:
     if not rewards:
-        return 0.0
+        return 0.1
     avg = sum(rewards) / len(rewards)
     t = TASK_THRESHOLDS.get(task, TASK_THRESHOLDS["medium_typing_noise"])
-    if avg > t["t10"]:   return 1.0
+    if avg > t["t10"]:   return 0.9
     elif avg > t["t07"]: return 0.7
     elif avg > t["t04"]: return 0.4
-    else:                return 0.0
+    else:                return 0.1
